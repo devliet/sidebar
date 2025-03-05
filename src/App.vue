@@ -1,7 +1,10 @@
 <template>
-  <v-card>
-    <v-layout>
-      <v-app-bar color="primary">
+  <v-app>
+  <v-card 
+  >
+    <v-row >
+      <v-col>
+      <v-app-bar color="primary" >
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>My files</v-toolbar-title>
@@ -19,12 +22,34 @@
 
       <v-navigation-drawer
         v-model="drawer"
-        :location="$vuetify.display.mobile ? 'bottom' : undefined"
+        :location="$vuetify.display.mobile ? 'top' : 'top'"
         temporary
+        style="width: 300px;"
       >
         <v-list
           :items="items"
         ></v-list>
+
+
+<v-list v-model:opened="open">
+        <v-list-group value="Admin">
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              title="Admin"
+            ></v-list-item>
+          </template>
+
+          <v-list-item
+            v-for="([title, icon], i) in admins"
+            :key="i"
+            :prepend-icon="icon"
+            :title="title"
+            :value="title"
+          ></v-list-item>
+        </v-list-group>
+      </v-list>
+
       </v-navigation-drawer>
 
       <v-main style="height: 500px;">
@@ -32,8 +57,10 @@
           The navigation drawer will appear from the bottom on smaller size screens.
         </v-card-text>
       </v-main>
-    </v-layout>
+    </v-col>
+    </v-row>
   </v-card>
+</v-app>
 </template>
 
 <!-- <template>
@@ -44,6 +71,7 @@
 <script>
   export default {
     data: () => ({
+      open: ['Admin'],
       drawer: false,
       group: null,
       items: [
@@ -64,6 +92,11 @@
           value: 'buzz',
         },
       ],
+      admins: [
+        ['Management', 'mdi-account-multiple-outline'],
+        ['Settings', 'mdi-cog-outline'],
+      ],
+
     }),
 
     watch: {
